@@ -146,6 +146,7 @@ public class NameNodeDriver implements NameNode {
                     }
                 }
             }
+            
 
             System.out.println("List With NN");
             System.out.println("-----------------------------------------------------");
@@ -202,9 +203,6 @@ public class NameNodeDriver implements NameNode {
         String clienthost=null;
         try{
             clienthost = RemoteServer.getClientHost();
-            /*System.out.println("\nHeartBeat host:" + clienthost);
-            System.out.println("Main Memory Usage:" + hb.getAvailableDiskMemory());
-            System.out.println("CPU Usage: " + hb.getAvailableMainMemory());*/
             heartBeatStatus.put(clienthost, Arrays.asList((Integer.toString(hb.getAvailableDiskMemory())
                     + "," + Integer.toString(hb.getAvailableMainMemory())).split(",")));
         }catch(Exception e){
@@ -294,8 +292,6 @@ public class NameNodeDriver implements NameNode {
             if(decision == 1){
                 //Parse through the INodeTree and
                 //write to File.
-                //filename = filehandleName.get(filehandle);
-                //INode node = root.getNode(root, filename.split("/"));
                 writeBlockToDN(filename);
                 (new FileSystem()).addINodeToFS(root, filename.split("/"));
             }
@@ -364,6 +360,12 @@ public class NameNodeDriver implements NameNode {
         String newINodeNo = (new FileSystem()).generateINodeNo();
         boolean inserted = root.insertIntoTree(root, newINodeNo, directory, path.split("/"), "d");
         if(inserted) {
+            /* Make sure client is accessible */
+            String newNodepath = (new FileSystem()).generateINodeNo();
+            boolean insertIntoPath = root.insertIntoTree(root, newINodeNo, directory, path.split("|"));
+            if!(insertIntoPath&&newNodepath){
+                 res = ClientNameNode.CreateDirectoryResponse.newBuilder().setStatus(false).build();
+            }
             (new FileSystem()).addINodeToFS(root, directoryname.split("/"));
             res = ClientNameNode.CreateDirectoryResponse.newBuilder().setStatus(true).build();
         }
