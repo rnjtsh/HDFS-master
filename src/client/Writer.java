@@ -270,5 +270,20 @@ public class Writer implements DistributedFileWritable, NameNodeProtocol {
                 .setStatus(false).build();
     }
 
+    private CreateDirectoryResponse setupDirectory(CreateDirectoryRequest crResponse)
+    {
+        Connection<NameNode> conn = new Connection<NameNode>(nameNodeIp,nnkey);
+        try {
+            NameNode stub = conn.getStub();
+            return stub.createDirectory(cr);
+        } catch (RemoteException exception) {
+            logger.log(Level.SEVERE, "[Could Not connect to Remote Machine] ", exception);
+        } catch (NotBoundException exception) {
+            logger.log(Level.SEVERE, "[Could Not Bind to Remote Machine] ", exception);
+        }
+        
+        return CreateDirectoryResponse.newBuilder()
+                .setStatus(false).build();
+    }
     
 }
