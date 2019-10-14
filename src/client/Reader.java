@@ -207,5 +207,18 @@ public class Reader implements DistributedFileReadable, NameNodeProtocol{
         }
         return listResponse.newBuilder().setStatus(0).build();
     }
-    
+ 
+    private listRequest list(listRequest lur) 
+    {
+        Connection<NameNode> conn = new Connection<NameNode>(nameNodeIp,nnkey);
+        try {
+            NameNode nodeStub = conn.getStub();
+            return nodeStub.list(lur);
+        } catch (RemoteException exception) {
+            logger.log(Level.SEVERE, "[Can not connect to NameNode] "+exception.getMessage());
+        } catch (NotBoundException exception) {
+            logger.log(Level.SEVERE, "[Can not bind nodeStub] "+exception.getMessage());
+        }
+        return listResponse.newBuilder().setStatus(0).build();
+    }
 }
