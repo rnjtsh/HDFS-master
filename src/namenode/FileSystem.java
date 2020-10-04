@@ -57,6 +57,8 @@ public class FileSystem {
                 bw.write(m + System.getProperty("line.separator") + d);
             else
                 bw.write(m);
+        } catch(IOException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
