@@ -67,4 +67,8 @@ public class ClientConfReader {
     {
         return new Integer(p.getProperty("chunk_size"));
     }
+    
+    public Set<String> getStringNames(){
+        return p.stringPropertyNames();
+    }
 }
