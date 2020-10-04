@@ -269,6 +269,12 @@ public class Writer implements DistributedFileWritable, NameNodeProtocol {
         return CreateDirectoryResponse.newBuilder()
                 .setStatus(false).build();
     }
-
+    
+    public String makeFile(String filePath) {
+        if (OpenFileResponse.newBuilder(filePath)) {
+            return OpenFileResponse.newBuilder().setStatus(0)
+                .setFilehandle(-1).build();
+        }
+    }
     
 }
