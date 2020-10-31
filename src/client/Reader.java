@@ -14,6 +14,10 @@ import com.example.communication.ClientNameNode.CloseFileRequest;
 import com.example.communication.ClientNameNode.CloseFileResponse;
 import com.example.elements.BlockInfo.Block;
 import com.example.elements.DataNodeInfo.DataNode;
+import com.example.communication.ClientNameNode.listRequest;
+import com.example.communication.ClientNameNode.listResponse;
+import com.example.elements.DirectoryInfo.Directory;
+import com.example.elements.DirectoryInfo.File;
 import com.google.protobuf.ByteString;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -23,11 +27,7 @@ import java.util.logging.Logger;
 import remote.interfaces.NameNode;
 import remote.interfaces.RemoteReadable;
 import remote.rmi.Connection;
-import client.interfaces.DistributedFileReadable;
-import com.example.communication.ClientNameNode.listRequest;
-import com.example.communication.ClientNameNode.listResponse;
-import com.example.elements.DirectoryInfo.Directory;
-import com.example.elements.DirectoryInfo.File;
+
 
 /**
  *
